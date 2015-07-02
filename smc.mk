@@ -57,7 +57,8 @@ MV=		mv
 RM_F=		rm -f
 RM_RF=		rm -rf
 
-JAVA_BIN=	/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/bin/
+JAVA_HOME ?= /Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home
+JAVA_BIN=	$(JAVA_HOME)/bin/
 JAVAC=          $(JAVA_BIN)javac
 JAR=            $(JAVA_BIN)jar
 

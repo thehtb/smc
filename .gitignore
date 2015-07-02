@@ -1,0 +1,8 @@
+net
+bin/*.FBK
+lib/Java/statemap
+lib/Java/*.jar
+lib/*.jar
+lib/statemap.h
+lib/Scala/statemap
+lib/Scala/*.jar

@@ -45,7 +45,7 @@ CHECKSTRING=    ./$(TARGET)
 TRACE=          -g
 
 SMC=            java -jar ../../../bin/Smc.jar
-SMC_FLAGS=      -objc $(TRACE)
+SMC_FLAGS=      -objc -protocol $(TRACE)
 
 GCC=            gcc
 CPPFLAGS=       -g -I../../../lib/ObjC/ -framework Foundation

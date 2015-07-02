@@ -166,11 +166,7 @@ public final class SmcHeaderObjCGenerator
         _source.print(fsmClassName);
         _source.println(";");
 
-        // Forward declare the application class.
-        _source.print(_indent);
-        _source.print("@class ");
-        _source.print(context);
-        _source.println(";");
+        printContextForwardDeclaration(context);
 
         // Do user-specified forward declarations now.
         for (String declaration: fsm.getDeclarations())
@@ -271,28 +267,28 @@ public final class SmcHeaderObjCGenerator
 
         _source.print(_indent);
         _source.print("    __weak ");
-        _source.print(context);
-        _source.println(" *_owner;");
+        printContextType(context);
+        _source.println(" _owner;");
 
         _source.print(_indent);
         _source.println("}");
 
         _source.print(_indent);
         _source.print("- (id)initWithOwner:(");
-        _source.print(context);
-        _source.print("*)");
+        printContextType(context);
+        _source.print(")");
         _source.println("owner;");
 
         _source.print(_indent);
         _source.print("- (id)initWithOwner:(");
-        _source.print(context);
-        _source.print("*)");
+        printContextType(context);
+        _source.print(")");
         _source.println("owner state:(SMCState*)aState;");
 
         _source.print(_indent);
         _source.print("- (");
-        _source.print(context);
-        _source.println("*)owner;");
+        printContextType(context);
+        _source.println(")owner;");
 
         _source.print(_indent);
         _source.print("- (" );
@@ -345,6 +341,36 @@ public final class SmcHeaderObjCGenerator
 
         return;
     } // end of visit(SmcFSM)
+
+    private void printContextForwardDeclaration(String context)
+    {
+        _source.print(_indent);
+        if (_useProtocolFlag)
+        {
+            _source.print("@protocol ");
+        }
+        else
+        {
+            _source.print("@class ");
+        }
+        _source.print(context);
+        _source.println(";");
+    } // end of printContextForwardDeclaration(String)
+
+    private void printContextType(String context)
+    {
+        if (_useProtocolFlag)
+        {
+            _source.print("id<");
+            _source.print(context);
+            _source.print(">");
+        }
+        else
+        {
+            _source.print(context);
+            _source.print("*");
+        }
+    } // end of printContextType(String)
 
     /**
      * Generates the map class declaration and then the state

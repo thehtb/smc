@@ -105,6 +105,7 @@ public abstract class SmcCodeGenerator
         _genericFlag = options.genericFlag();
         _java7Flag = options.java7Flag();
         _accessLevel = options.accessLevel();
+        _useProtocolFlag = options.useProtocolFlag();
         _suffix = suffix;
         _source = null;
         _indent = "";
@@ -567,6 +568,12 @@ public abstract class SmcCodeGenerator
      * Used this access keyword for the generated classes.
      */
     protected final String _accessLevel;
+
+    /**
+     * This flag is true when Objetive-C code uses a protocol instead of a
+     * class.
+     */
+    protected final boolean _useProtocolFlag;
 
     //-----------------------------------------------------------
     // Statics.

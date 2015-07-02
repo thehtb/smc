@@ -141,6 +141,7 @@ public final class Smc
         _reflection = false;
         _outputDirectory = null;
         _headerDirectory = null;
+        _protocol = false;
         _suffix = null;
         _hsuffix = SmcCodeGenerator.DEFAULT_HEADER_SUFFIX;
         _accessLevel = null;
@@ -761,6 +762,23 @@ public final class Smc
                     argsConsumed = 1;
                 }
             }
+            else if (args[i].startsWith("-proto") == true)
+            {
+                if (_supportsOption(USE_PROTOCOL_FLAG) == false)
+                {
+                    retcode = false;
+                    _errorMsg =
+                        _targetLanguage.name() +
+                        " does not support " +
+                        USE_PROTOCOL_FLAG +
+                        ".";
+                }
+                else
+                {
+                    _protocol = true;
+                    argsConsumed = 1;
+                }
+            }
             else if (args[i].startsWith("-ret") == true)
             {
                 if (_supportsOption(RETURN_FLAG) == false)
@@ -1111,6 +1129,7 @@ public final class Smc
         stream.print(" [-sync]");
         stream.print(" [-noex]");
         stream.print(" [-nocatch]");
+        stream.print(" [-protocol]");
         stream.print(" [-serial]");
         stream.print(" [-return]");
         stream.print(" [-reflect]");
@@ -1163,6 +1182,10 @@ public final class Smc
         stream.print(
             "\t-nocatch  Do not generate try/catch/rethrow ");
         stream.println("code (not recommended)");
+        stream.println(
+            "\t-protocol Use a protocol instead of class");
+        stream.print("\t          ");
+        stream.println("(use with -objc only)");
         stream.println(
             "\t-serial   Generate serialization code");
         stream.print("\t-return   ");
@@ -1335,7 +1358,8 @@ public final class Smc
                                  _sync,
                                  _generic,
                                  _java7Flag,
-                                 _accessLevel);
+                                 _accessLevel,
+                                 _protocol);
 
         // Create the header file name and generator -
         // if the language uses a header file.
@@ -1676,6 +1700,8 @@ public final class Smc
     // Use this access identifier for the generated classes.
     private static String _accessLevel;
 
+    private static boolean _protocol;
+
     // Store command line error messages here.
     private static String _errorMsg;
 
@@ -1729,6 +1755,7 @@ public final class Smc
     private static final String VERBOSE_FLAG = "-verbose";
     private static final String VERSION_FLAG = "-version";
     private static final String VVERBOSE_FLAG = "-vverbose";
+    private static final String USE_PROTOCOL_FLAG = "-protocol";
 
     private static final String PACKAGE_LEVEL = "package";
 
@@ -1871,6 +1898,7 @@ public final class Smc
 
         List<Language> languages = new ArrayList<Language>();
 
+        // +  -protocol: Objective C
         _optionMap = new HashMap<String, List<Language>>();
 
         // Languages supporting each option:
@@ -1922,6 +1950,10 @@ public final class Smc
         _optionMap.put(CAST_FLAG, languages);
         _optionMap.put(NO_EXCEPTIONS_FLAG, languages);
         _optionMap.put(NO_STREAMS_FLAG, languages);
+
+        languages = new ArrayList<Language>();
+        languages.add(_languages[TargetLanguage.OBJECTIVE_C.ordinal()]);
+        _optionMap.put(USE_PROTOCOL_FLAG, languages);
 
         // The -access option.
         languages = new ArrayList<Language>();
@@ -2066,18 +2098,18 @@ public final class Smc
 // Committing release 5.1.0.
 //
 // Modified Files:
-// 	Makefile README.txt smc.mk tar_list.txt bin/Smc.jar
-// 	examples/Ant/EX1/build.xml examples/Ant/EX2/build.xml
-// 	examples/Ant/EX3/build.xml examples/Ant/EX4/build.xml
-// 	examples/Ant/EX5/build.xml examples/Ant/EX6/build.xml
-// 	examples/Ant/EX7/build.xml examples/Ant/EX7/src/Telephone.java
-// 	examples/Java/EX1/Makefile examples/Java/EX4/Makefile
-// 	examples/Java/EX5/Makefile examples/Java/EX6/Makefile
-// 	examples/Java/EX7/Makefile examples/Ruby/EX1/Makefile
-// 	lib/statemap.jar lib/C++/statemap.h lib/Java/Makefile
-// 	lib/Php/statemap.php lib/Scala/Makefile
-// 	lib/Scala/statemap.scala net/sf/smc/CODE_README.txt
-// 	net/sf/smc/README.txt net/sf/smc/Smc.java
+//  Makefile README.txt smc.mk tar_list.txt bin/Smc.jar
+//  examples/Ant/EX1/build.xml examples/Ant/EX2/build.xml
+//  examples/Ant/EX3/build.xml examples/Ant/EX4/build.xml
+//  examples/Ant/EX5/build.xml examples/Ant/EX6/build.xml
+//  examples/Ant/EX7/build.xml examples/Ant/EX7/src/Telephone.java
+//  examples/Java/EX1/Makefile examples/Java/EX4/Makefile
+//  examples/Java/EX5/Makefile examples/Java/EX6/Makefile
+//  examples/Java/EX7/Makefile examples/Ruby/EX1/Makefile
+//  lib/statemap.jar lib/C++/statemap.h lib/Java/Makefile
+//  lib/Php/statemap.php lib/Scala/Makefile
+//  lib/Scala/statemap.scala net/sf/smc/CODE_README.txt
+//  net/sf/smc/README.txt net/sf/smc/Smc.java
 // ----------------------------------------------------------------------
 //
 // Revision 1.28  2008/04/22 16:05:24  fperrad

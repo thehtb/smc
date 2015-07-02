@@ -103,7 +103,8 @@ public final class SmcOptions
                       final boolean syncFlag,
                       final boolean genericFlag,
                       final boolean java7Flag,
-                      final String accessLevel)
+                      final String accessLevel,
+                      final boolean useProtocolFlag)
     {
         _srcfileBase = srcfileBase;
         _targetfileBase = targetfileBase;
@@ -122,6 +123,7 @@ public final class SmcOptions
         _genericFlag = genericFlag;
         _java7Flag = java7Flag;
         _accessLevel = accessLevel;
+        _useProtocolFlag = useProtocolFlag;
     } // end f SmcOptions(...)
 
     //
@@ -286,6 +288,15 @@ public final class SmcOptions
         return (_accessLevel);
     } // end of accessLevel()
 
+    /**
+     * Returns the "use protocol" flag.
+     * @return the "use protocol" flag.
+     */
+    public boolean useProtocolFlag()
+    {
+        return (_useProtocolFlag);
+    } // end of useProtocolFlag()
+
     //
     // end of Get methods.
     //-----------------------------------------------------------
@@ -348,6 +359,9 @@ public final class SmcOptions
 
     // Used this access keyword for the generated classes.
     private final String _accessLevel;
+
+    // Use this to use a protocol instead of a class (Objective-C only).
+    private final boolean _useProtocolFlag;
 } // end of class SmcOptions
 
 //

@@ -28,16 +28,18 @@
 
 #import "AppClass_sm.h"
 
-@interface AppClass : NSObject
+@protocol AppClass <NSObject>
+// Methods called back from the fsm
+- (void)Acceptable;
+- (void)Unacceptable;
+@end
+
+@interface AppClass : NSObject <AppClass>
 {
     AppClassContext *_fsm;
 	BOOL isAcceptable;
 }
 - (BOOL)checkString:(char*)str;
-
-// Methods called back from the fsm
-- (void)Acceptable;
-- (void)Unacceptable;
 @end
 
 // CHANGE LOG

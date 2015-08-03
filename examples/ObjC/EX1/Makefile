@@ -97,6 +97,9 @@ clean :
 
 # CHANGE LOG
 # $Log$
+# Revision 1.6  2015/08/02 19:44:36  cwrapp
+# Release 6.6.0 commit.
+#
 # Revision 1.5  2008/07/29 06:51:00  fperrad
 # - add a target 'png'
 #

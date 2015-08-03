@@ -262,7 +262,7 @@ public final class SmcObjCGenerator
 
 				_source.print(_indent);
                 _source.print("    ");
-				_source.print("[g");
+                _source.print("[g");
                 _source.print(mapName);
                 _source.print("_");
                 _source.print(state.getClassName());
@@ -1457,20 +1457,28 @@ public final class SmcObjCGenerator
                 "]");
     } // end of convertScope(String)
 
-	private void printContextType(String context)
-	{
-		if (_useProtocolFlag)
-		{
-			_source.print("id<");
-			_source.print(context);
-			_source.print(">");
-		}
-		else
-		{
-			_source.print(context);
-			_source.print("*");
-		}
-	} // end of printContextType(String)
+    /**
+     * Outputs the appropriate context declaration based on
+     * whether the "-protocol" command line parameter was
+     * specified or not.
+     * @param context context class name.
+     */
+    private void printContextType(final String context)
+    {
+        if (_useProtocolFlag == true)
+        {
+            _source.print("id<");
+            _source.print(context);
+            _source.print(">");
+        }
+        else
+        {
+            _source.print(context);
+            _source.print("*");
+        }
+
+        return;
+    } // end of printContextType(String)
 
 //---------------------------------------------------------------
 // Member data
@@ -1479,7 +1487,7 @@ public final class SmcObjCGenerator
 
 //
 // CHANGE LOG
-// $Log$
+// Log: SmcObjCGenerator.java,v
 // Revision 1.13  2015/02/16 21:43:09  cwrapp
 // SMC v. 6.5.0
 //

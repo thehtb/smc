@@ -88,6 +88,8 @@ public abstract class SmcCodeGenerator
     protected SmcCodeGenerator(final SmcOptions options,
                                final String suffix)
     {
+        _appName = options.applicationName();
+        _appVersion = options.applicationVersion();
         _srcfileBase = options.srcfileBase();
         _targetfileBase = options.targetfileBase();
         _srcDirectory = options.srcDirectory();
@@ -100,6 +102,8 @@ public abstract class SmcCodeGenerator
         _noExceptionFlag = options.noExceptionFlag();
         _noCatchFlag = options.noCatchFlag();
         _noStreamsFlag = options.noStreamsFlag();
+        _crtpFlag = options.crtpFlag();
+        _stateStackSize = options.stateStackSize();
         _reflectFlag = options.reflectFlag();
         _syncFlag = options.syncFlag();
         _genericFlag = options.genericFlag();
@@ -460,6 +464,16 @@ public abstract class SmcCodeGenerator
 //
 
     /**
+     * Application name.
+     */
+    protected final String _appName;
+
+    /**
+     * Application version.
+     */
+    protected final String _appVersion;
+
+    /**
      * Emit the target source code to this output stream.
      */
     protected PrintStream _source;
@@ -542,6 +556,18 @@ public abstract class SmcCodeGenerator
     protected final boolean _noStreamsFlag;
 
     /**
+     * This flag is true when generated code is template for CRTP.
+     */
+    protected final boolean _crtpFlag;
+
+    /**
+     * A value &gt; zero means that a statically-allocated state
+     * stack of fixed-size is used. Otherwise, an unbounded,
+     * dynamically allocated stack is used.
+     */
+    protected final int _stateStackSize;
+
+    /**
      * This flag is true when reflection is supported.
      */
     protected final boolean _reflectFlag;
@@ -570,8 +596,8 @@ public abstract class SmcCodeGenerator
     protected final String _accessLevel;
 
     /**
-     * This flag is true when Objetive-C code uses a protocol instead of a
-     * class.
+     * This flag is {@code true} when Objective-C code uses a
+     * protocol instead of a class.
      */
     protected final boolean _useProtocolFlag;
 
